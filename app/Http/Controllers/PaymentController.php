@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\package;
-use App\Models\Payment;
+use App\Models\payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,7 @@ class PaymentController extends Controller
 {
     public function store(Request $request) //menyimpan data pembayaran baru
     {
-        $payment = Payment::create([
+        $payment = payment::create([
             'phone_number' => $request->phone_number,
             'type' => $request->type,
             'name' => $request->name,
@@ -27,7 +27,7 @@ class PaymentController extends Controller
     }
 
     public function updateStatus($id){ //mengubah status pembayaran menjadi sukses
-        $payment = Payment::find($id);
+        $payment = payment::find($id);
 
         if (!$payment) {
             return response()->json([
@@ -46,7 +46,7 @@ class PaymentController extends Controller
     }
 
     public function success($id){ //memproses pembayaran yang sukses dan menambahkan pulsa atau kuota ke pengguna
-        $payment = Payment::findOrFail($id);
+        $payment = payment::findOrFail($id);
 
         // Hindari proses dobel jika sudah success
         if ($payment->status === 'success') {
@@ -85,7 +85,7 @@ class PaymentController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Payment success',
+            'message' => 'success',
             'balance' => [
                 'pulsa' => $user->pulsa,
                 'quota' => $user->quota,
